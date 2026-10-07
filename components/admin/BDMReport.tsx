@@ -9,6 +9,7 @@ import { Fragment } from 'react'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { getBdmColor } from '@/lib/helpers/bdmColors'
+import { getInitials, getRoleLabel } from '@/lib/helpers/format'
 
 interface BDMPerformance {
   _id: string
@@ -56,13 +57,6 @@ interface BDMTask {
   completedBy?: { _id: string; name: string };
 }
 
-const getInitials = (name?: string): string => {
-  if (!name) return '?'
-  const parts = name.split(' ')
-  return parts.length > 1
-    ? `${parts[0].charAt(0)}${parts[1].charAt(0)}`.toUpperCase()
-    : name.charAt(0).toUpperCase()
-}
 
 export default function BDMReport() {
   const [reportMode, setReportMode] = useState<'performance' | 'tasks'>('performance')
@@ -288,8 +282,6 @@ export default function BDMReport() {
     }
     generatePDF()
   }
-
-  const getRoleLabel = (role: string): string => role === 'bdm' ? 'BDM' : role
 
   const formatCurrency = (amount: any): string => {
     const num = typeof amount === 'string' ? parseFloat(amount) : amount

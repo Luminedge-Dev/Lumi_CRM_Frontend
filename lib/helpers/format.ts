@@ -13,8 +13,21 @@ export function formatTimeAgo(date: Date | string): string {
   return `${diffDays} days ago`
 }
 
-export function getInitials(name: string): string {
+export function getInitials(name?: string): string {
+  if (!name) return '?'
   return name.split(' ').slice(0, 2).map(n => n[0] ?? '').join('').toUpperCase()
+}
+
+export function getRoleLabel(role: string): string {
+  return role === 'bdm' ? 'BDM' : role
+}
+
+export function formatTimeTo12h(time: string): string {
+  const [hours, minutes] = time.split(':').map(Number)
+  if (Number.isNaN(hours) || Number.isNaN(minutes)) return time
+  const period = hours >= 12 ? 'PM' : 'AM'
+  const hour12 = hours % 12 || 12
+  return `${hour12}:${minutes.toString().padStart(2, '0')} ${period}`
 }
 
 export function formatHeaderDate(): string {

@@ -15,21 +15,6 @@ const getAuthHeader = (): HeadersInit => {
   };
 };
 
-// Legacy functions
-export const updateMockNumber = async (userId: string, mockData: any) => {
-  const response = await fetch(`${API_ORIGIN}/api/v1/user/mock-tests/${userId}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(mockData),
-  });
-  return response.json();
-};
-
-export const getMockTests = async (userId: string) => {
-  const response = await fetch(`${API_ORIGIN}/api/v1/user/mock-tests/${userId}`);
-  return response.json();
-};
-
 // Mock Test Packages
 export const getMockTestPackages = async (): Promise<MockTestPackage[]> => {
   const response = await fetch(`${API_BASE_URL}/mock-test-packages`, {

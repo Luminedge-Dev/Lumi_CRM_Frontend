@@ -4,8 +4,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { X, Check, AlertCircle, User, Phone, Mail, BookOpen, Target, Globe, CalendarClock, FileText, Zap, ChevronDown } from 'lucide-react'
 import { createLead, getBDMsForAssignment as getBDMs, getLeads as fetchLeads } from '@/lib/api/leads'
 import { getProfile } from '@/lib/api/auth'
-import type { BDM, LeadSource, ServiceInterest } from '@/types/admin'
-import { SERVICE_INTEREST_OPTIONS } from '@/types/admin'
+import type { BDM, LeadSource, ServiceInterest, WhomOption, PhoneLookupSuggestion } from '@/types/admin'
+import { SERVICE_INTEREST_OPTIONS, WHOM_OPTIONS } from '@/types/admin'
 import {
   PHONE_COUNTRIES,
   buildInternationalPhone,
@@ -16,8 +16,7 @@ import {
   validatePhone,
 } from '@/lib/phone/phone.utils'
 
-const whomOptions = ['Personal', 'Parents', 'Cousin', 'Uncle', 'Sibling', 'Spouse'] as const
-type WhomOption = (typeof whomOptions)[number]
+const whomOptions = WHOM_OPTIONS
 
 const leadSources: LeadSource[] = [
   'Education Team', 'Phone Call', 'Previous', 'Facebook', 'WhatsApp',
@@ -60,8 +59,8 @@ export default function QuickAddLeadModal({ onClose, onSuccess, title = 'Quick A
   const [countryCode, setCountryCode] = useState<string>(countryCodes[0].code)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [phoneSuggestions, setPhoneSuggestions] = useState<Array<{ _id: string; fullName: string; phone: string; whom?: string }>>([])
-  const [existingLeads, setExistingLeads] = useState<Array<{ _id: string; fullName: string; phone: string; whom?: string }>>([])
+  const [phoneSuggestions, setPhoneSuggestions] = useState<PhoneLookupSuggestion[]>([])
+  const [existingLeads, setExistingLeads] = useState<PhoneLookupSuggestion[]>([])
   const [bdms, setBdms] = useState<BDM[]>([])
   const [currentUser, setCurrentUser] = useState<{ id?: string; email?: string; name?: string } | null>(null)
   const [phoneError, setPhoneError] = useState<string | null>(null)

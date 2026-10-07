@@ -157,14 +157,14 @@ export default function BDMSidebar({
                     )}
                     {isIconOnly && <div className="w-full" />}
                     {isOpen && (
-                        <button
+                        <button aria-label="Close menu"
                             onClick={onClose}
                             className="absolute right-4 lg:hidden p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600"
                         >
                             <X style={{ width: 18, height: 16 }} />
                         </button>
                     )}
-                    <button
+                    <button aria-label="Collapse or expand sidebar"
                         onClick={() => setCollapsed(c => !c)}
                         className="absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-6 h-6 rounded-full bg-white border border-gray-200 items-center justify-center text-gray-400 hover:text-gray-700 shadow-sm transition-colors hidden lg:flex"
                     >

@@ -204,11 +204,24 @@ export const SERVICE_INTEREST_OPTIONS: ServiceInterest[] = [
   'Basic English', 'Spoken', 'Service Charge', 'SSC English', 'Study Abroad', 'Others',
 ];
 
+export type WhomOption = 'Personal' | 'Parents' | 'Cousin' | 'Uncle' | 'Sibling' | 'Spouse';
+
+// Matches Lead.whom's value set — use for dropdowns/selects
+export const WHOM_OPTIONS: WhomOption[] = ['Personal', 'Parents', 'Cousin', 'Uncle', 'Sibling', 'Spouse'];
+
 export interface FollowUp {
   date: string;
   note: string;
   nextFollowUpDate: string;
   createdAt?: string;
+}
+
+// A lead/existing-lead match surfaced while looking up a phone number (duplicate-phone checks, autofill).
+export interface PhoneLookupSuggestion {
+  _id: string;
+  fullName: string;
+  phone: string;
+  whom?: string;
 }
 
 export interface Lead {

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { getStudentMilestones, updateMilestone } from '@/lib/api/milestones'
+import { API_URL } from '@/lib/api/base'
 import type { Milestone, MilestoneStatus } from '@/types/student'
 import { CheckCircle, Circle, Clock, AlertCircle } from 'lucide-react'
 
@@ -31,7 +32,7 @@ export default function MilestoneManager() {
   const token = Cookies.get('accessToken') || localStorage.getItem('accessToken') || ''
 
   useEffect(() => {
-    fetch('/api/student/students', { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_URL}/student/students`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(d => setStudents(d.students || []))
       .catch(() => {})

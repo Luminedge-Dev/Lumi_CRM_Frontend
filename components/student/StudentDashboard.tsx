@@ -213,7 +213,7 @@ export default function StudentDashboard() {
         {/* Top bar */}
         <header className="flex-shrink-0 flex items-center justify-between px-4 md:px-6 h-16 bg-white border-b border-gray-100 shadow-[0_1px_0_rgba(0,0,0,0.05)]">
           <div className="flex items-center gap-3">
-            <button
+            <button aria-label="Open menu"
               onClick={() => setSidebarOpen(true)}
               className="md:hidden p-2 rounded-xl hover:bg-gray-100 text-[#00000F]/40 transition"
             >

@@ -198,7 +198,7 @@ export default function AdminDashboardClient() {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile-only top bar — desktop shows nothing here; page sticky headers serve as the header */}
         <div className="lg:hidden flex-none flex items-center justify-between px-4 py-3 bg-white/95 backdrop-blur-md border-b border-gray-100 z-30">
-          <button
+          <button aria-label="Open menu"
             onClick={() => setSidebarOpen(prev => !prev)}
             className="p-2 rounded-xl hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-800"
           >

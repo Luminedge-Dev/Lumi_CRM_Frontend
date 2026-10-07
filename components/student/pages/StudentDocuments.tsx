@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { getMyDocuments, uploadDocument } from "@/lib/api/documents";
-import { API_URL } from "@/lib/api/base";
+import { API_ORIGIN } from "@/lib/api/base";
 import type { StudentProfile, StudentDocument, DocumentStatus } from "@/types/student";
 import { Upload, FileText, CheckCircle, Clock, XCircle, AlertTriangle, X } from "lucide-react";
 
@@ -53,6 +53,7 @@ export default function StudentDocuments({ token }: Props) {
   const [docType, setDocType] = useState(DOC_TYPES[0]);
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
   async function load() {
@@ -70,16 +71,24 @@ export default function StudentDocuments({ token }: Props) {
   async function handleUpload() {
     if (!file) return;
     setUploading(true);
+    setUploadError("");
     try {
       const fd = new FormData();
       fd.append("file", file);
       fd.append("documentType", selectedDoc?.documentType || docType);
       if (selectedDoc?._id) fd.append("existingDocId", selectedDoc._id);
-      await uploadDocument(token, fd, true);
+      const result = await uploadDocument(token, fd, true);
+      // Keep the dialog open on a rejected upload (wrong type, too large...) and say why.
+      if (!result?.success) {
+        setUploadError(result?.message || "Upload failed. Please try again.");
+        return;
+      }
       setShowUpload(false);
       setFile(null);
       setSelectedDoc(null);
       load();
+    } catch {
+      setUploadError("Upload failed. Please check your connection and try again.");
     } finally {
       setUploading(false);
     }
@@ -155,7 +164,7 @@ export default function StudentDocuments({ token }: Props) {
               </button>
             ) : viewDoc.filePath ? (
               <a
-                href={viewDoc.filePath.startsWith("http") ? viewDoc.filePath : `${API_URL}${viewDoc.filePath}`}
+                href={viewDoc.filePath.startsWith("http") ? viewDoc.filePath : `${API_ORIGIN}${viewDoc.filePath}`}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-black text-[#00000F] bg-[#FACE39] hover:bg-[#f0c020] transition">
@@ -204,17 +213,20 @@ export default function StudentDocuments({ token }: Props) {
             <p className="text-sm font-bold text-[#00000F]/50">
               {file ? file.name : "Click to select file"}
             </p>
-            <p className="text-xs text-[#00000F]/30 mt-1">PDF, JPG, PNG, DOC — max 10MB</p>
+            <p className="text-xs text-[#00000F]/30 mt-1">PDF, JPG, PNG, DOC â€” max 10MB</p>
           </div>
           <input ref={fileRef} type="file" className="hidden"
             accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-            onChange={e => setFile(e.target.files?.[0] || null)} />
+            onChange={e => { setFile(e.target.files?.[0] || null); setUploadError(""); }} />
+          {uploadError && (
+            <p role="alert" className="mt-3 text-xs font-bold text-red-600">{uploadError}</p>
+          )}
           <div className="flex gap-2 mt-4">
             <button onClick={handleUpload} disabled={!file || uploading}
               className="px-4 py-2 rounded-xl text-sm font-black text-[#00000F] bg-[#FACE39] hover:bg-[#f0c020] transition disabled:opacity-50">
               {uploading ? "Uploading..." : "Upload"}
             </button>
-            <button onClick={() => { setShowUpload(false); setFile(null); setSelectedDoc(null); }}
+            <button onClick={() => { setShowUpload(false); setFile(null); setSelectedDoc(null); setUploadError(""); }}
               className="px-4 py-2 rounded-xl text-sm font-bold text-[#00000F]/50 border border-gray-200 hover:border-gray-300 transition">
               Cancel
             </button>

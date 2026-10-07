@@ -5,6 +5,7 @@ import { Search, UserX, Users, UserCheck, UserMinus, AlertCircle } from 'lucide-
 import { getUsers, deleteUser } from '@/lib/api/auth'
 import { BDM } from '@/types/admin'
 import { getBdmColor } from '@/lib/helpers/bdmColors'
+import { getRoleLabel } from '@/lib/helpers/format'
 
 const getInitials = (name: string): string => {
   const parts = name.split(' ')
@@ -89,8 +90,6 @@ export default function BDMRemove() {
       setSelectedBDM(null)
     }
   }
-
-  const getRoleLabel = (role: string): string => role === 'bdm' ? 'BDM' : role
 
   const formatDate = (dateStr?: string): string => {
     if (!dateStr) return 'N/A'

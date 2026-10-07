@@ -5,6 +5,7 @@ import { Search, Send, Users, UserPlus, Clock, CheckCircle } from 'lucide-react'
 import { getLeads, getBDMsForAssignment, assignLeads } from '@/lib/api/leads'
 import { getSourceColor } from '@/lib/constants/leadSourceColors'
 import { getBdmColor } from '@/lib/helpers/bdmColors'
+import { getInitials, getRoleLabel } from '@/lib/helpers/format'
 
 import { Lead, BDM } from '@/types/admin'
 
@@ -25,13 +26,6 @@ const getAvatarColor = (name?: string): string => {
   return colors[index]
 }
 
-const getInitials = (name?: string): string => {
-  if (!name) return '?'
-  const parts = name.split(' ')
-  return parts.length > 1
-    ? `${parts[0].charAt(0)}${parts[1].charAt(0)}`.toUpperCase()
-    : name.charAt(0).toUpperCase()
-}
 
 export default function LeadAssignments() {
   const [unassignedLeads, setUnassignedLeads] = useState<Lead[]>([])
@@ -145,8 +139,6 @@ export default function LeadAssignments() {
     if (diffHours < 24) return `${diffHours}h ago`
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
-
-  const getRoleLabel = (role: string): string => role === 'bdm' ? 'BDM' : role
 
   const getCourseColor = (course: string): string => {
     const colors: Record<string, string> = {

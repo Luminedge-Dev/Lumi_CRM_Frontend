@@ -8,8 +8,8 @@ import {
 import { createLead, getBDMsForAssignment as getBDMs, getLeads as fetchLeads, importLeadsFromCSV } from '@/lib/api/leads'
 import { getUserIdFromToken } from '@/lib/helpers/jwt'
 import { getProfile } from '@/lib/api/auth'
-import type { LeadSource, ServiceInterest, BDM } from '@/types/admin'
-import { SERVICE_INTEREST_OPTIONS } from '@/types/admin'
+import type { LeadSource, ServiceInterest, BDM, WhomOption, PhoneLookupSuggestion } from '@/types/admin'
+import { SERVICE_INTEREST_OPTIONS, WHOM_OPTIONS } from '@/types/admin'
 import {
   PHONE_COUNTRIES,
   buildInternationalPhone,
@@ -22,7 +22,6 @@ import {
 } from '@/lib/phone/phone.utils'
 
 interface FollowUpEntry { id: number; date: string; note: string; nextFollowUpDate: string }
-interface PhoneLookupSuggestion { _id: string; fullName: string; phone: string; whom?: string }
 
 const countryCodes = PHONE_COUNTRIES
 
@@ -30,8 +29,7 @@ const leadSources: LeadSource[] = [
   'Education Team', 'Phone Call', 'Previous', 'Facebook', 'WhatsApp',
   'Google', 'Walk-in', 'Event', 'Reference', 'Others', 'Website'
 ]
-const whomOptions = ['Personal', 'Parents', 'Cousin', 'Uncle', 'Sibling', 'Spouse'] as const
-type WhomOption = (typeof whomOptions)[number]
+const whomOptions = WHOM_OPTIONS
 const serviceInterests: ServiceInterest[] = SERVICE_INTEREST_OPTIONS
 
 interface InputLeadProps { onSuccess?: () => void; onCancel?: () => void }

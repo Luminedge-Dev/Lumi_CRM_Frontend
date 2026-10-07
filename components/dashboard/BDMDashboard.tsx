@@ -18,7 +18,7 @@ import { getAvailableSchedulesFromLuminedge, getMockTestSchedules } from '@/lib/
 import type { LeadSource, LeadStage, LuminedgeSchedule, MockTestSchedule } from '@/types/admin'
 import QuickAddLeadModal from '@/components/leads/QuickAddLeadModal'
 import type { Page } from '@/types/navigation'
-import { formatTimeAgo, formatHeaderDate, formatExamDate, formatShortDate } from '@/lib/helpers/format'
+import { formatTimeAgo, formatHeaderDate, formatExamDate, formatShortDate, formatTimeTo12h } from '@/lib/helpers/format'
 import { getUserIdFromToken } from '@/lib/helpers/jwt'
 import { useFollowUpLeads } from '@/lib/hooks/useFollowUpLeads'
 
@@ -130,13 +130,6 @@ const EXAM_BADGE: Record<string, string> = {
   PTE:   'bg-[#edebfe] text-[#7e3af2]',
   GRE:   'bg-[#fdf6b2] text-[#92400e]',
   TOEFL: 'bg-[#def7ec] text-[#0e9f6e]',
-}
-function formatTimeTo12h(time: string): string {
-  const [hours, minutes] = time.split(':').map(Number)
-  if (Number.isNaN(hours) || Number.isNaN(minutes)) return time
-  const period = hours >= 12 ? 'PM' : 'AM'
-  const hour12 = hours % 12 || 12
-  return `${hour12}:${minutes.toString().padStart(2, '0')} ${period}`
 }
 
 function parseDateSafe(value: string): Date | null {

@@ -1,11 +1,10 @@
-const BASE = '/api';
+import { API_URL, authHeader } from './base';
 
-function authHeader(token: string) {
-  return { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
-}
+// Absolute backend URL: the API is a separate deployment, so a relative '/api' would hit the frontend host.
+const BASE = API_URL;
 
 export async function getNews(category?: string) {
-  const qs = category ? `?category=${category}` : '';
+  const qs = category ? `?category=${encodeURIComponent(category)}` : '';
   const res = await fetch(`${BASE}/news${qs}`);
   return res.json();
 }

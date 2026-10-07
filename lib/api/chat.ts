@@ -1,4 +1,7 @@
-const BASE = '/api';
+import { API_URL } from './base';
+
+// Absolute backend URL: the API is a separate deployment, so a relative '/api' would hit the frontend host.
+const BASE = API_URL;
 
 function authHeader(token: string, isStudent = false) {
   return { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };

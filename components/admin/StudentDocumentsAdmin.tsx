@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { getStudentDocuments, reviewDocument, requestDocument } from '@/lib/api/documents'
-import { API_URL } from '@/lib/api/base'
+import { API_ORIGIN, API_URL } from '@/lib/api/base'
 import type { StudentDocument, DocumentStatus } from '@/types/student'
 import { FileText, Download, Plus } from 'lucide-react'
 
@@ -39,7 +39,7 @@ export default function StudentDocumentsAdmin() {
   const token = Cookies.get('accessToken') || localStorage.getItem('accessToken') || ''
 
   useEffect(() => {
-    fetch('/api/student/students', { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_URL}/student/students`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(d => setStudents(d.students || []))
       .catch(() => {})
@@ -136,7 +136,7 @@ export default function StudentDocumentsAdmin() {
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${statusBadge(doc.status)}`}>{doc.status}</span>
                   {doc.filePath && (
                     <a
-                      href={doc.filePath.startsWith('http') ? doc.filePath : `${API_URL}${doc.filePath}`}
+                      href={doc.filePath.startsWith('http') ? doc.filePath : `${API_ORIGIN}${doc.filePath}`}
                       target="_blank"
                       rel="noreferrer"
                       className="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 transition"

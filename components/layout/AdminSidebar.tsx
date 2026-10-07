@@ -169,14 +169,14 @@ export default function AdminSidebar({ activePage, setActivePage, onLogout, isOp
                         />
                     </div>
                     {isOpen && (
-                        <button
+                        <button aria-label="Close menu"
                             onClick={onClose}
                             className="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-600 flex-shrink-0"
                         >
                             <X style={{ width: 15, height: 15 }} />
                         </button>
                     )}
-                    <button
+                    <button aria-label="Collapse or expand sidebar"
                         onClick={() => setCollapsed(c => !c)}
                         className="absolute -right-3.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-700 bg-white transition"
                         style={{
@@ -215,7 +215,7 @@ export default function AdminSidebar({ activePage, setActivePage, onLogout, isOp
                     <SectionLabel label="Analytics" />
                     <NavItem id="reports" label="Reports" icon={BarChart3} />
 
-                    {/* <SectionLabel label="Students" />
+                    <SectionLabel label="Students" />
                     <AccordionBtn
                         label="Students"
                         icon={StudentIcon}
@@ -231,7 +231,7 @@ export default function AdminSidebar({ activePage, setActivePage, onLogout, isOp
                             <NavItem id="appointments-admin" label="Appointments" icon={Calendar} isSub />
                             <NavItem id="news-management" label="News Management" icon={Newspaper} isSub />
                         </div>
-                    )} */}
+                    )}
 
                     <SectionLabel label="Management" />
                     {/* Create Staff Account

@@ -208,14 +208,14 @@ export default function StudentSidebar({
         </AnimatePresence>
 
         {mobile ? (
-          <button
+          <button aria-label="Close menu"
             onClick={onClose}
             className="p-1.5 rounded-lg text-[#00000F]/30 hover:text-[#00000F]/60 hover:bg-gray-100 transition"
           >
             <X size={15} />
           </button>
         ) : (
-          <button
+          <button aria-label="Collapse or expand sidebar"
             onClick={() => setCollapsed(c => !c)}
             className="absolute -right-3.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full flex items-center justify-center text-[#00000F]/40 hover:text-[#00000F]/70 bg-white transition"
             style={{

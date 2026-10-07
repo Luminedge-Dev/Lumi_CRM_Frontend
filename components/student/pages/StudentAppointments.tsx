@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getMyAppointments, requestAppointment } from "@/lib/api/appointments";
 import type { StudentProfile, Appointment } from "@/types/student";
 import { Calendar, Plus, X } from "lucide-react";
+import { safeHttpUrl } from "@/lib/helpers/url";
 
 interface Props { token: string; profile: StudentProfile; onRefresh: () => void; }
 
@@ -110,9 +111,9 @@ export default function StudentAppointments({ token }: Props) {
 
             <p className="text-[10px] text-[#00000F]/30">Booked on {new Date(viewAppt.createdAt).toLocaleDateString()}</p>
 
-            {viewAppt.meetingLink && (
+            {safeHttpUrl(viewAppt.meetingLink) && (
               <a
-                href={viewAppt.meetingLink}
+                href={safeHttpUrl(viewAppt.meetingLink)}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-black text-[#00000F] bg-[#FACE39] hover:bg-[#f0c020] transition">
@@ -182,8 +183,8 @@ export default function StudentAppointments({ token }: Props) {
                 {new Date(a.scheduledAt).toLocaleString()}
               </p>
               {a.staffId && <p className="text-xs text-[#b08800] mt-1">With: {(a.staffId as any).name}</p>}
-              {a.meetingLink && (
-                <a href={a.meetingLink} target="_blank" rel="noreferrer"
+              {safeHttpUrl(a.meetingLink) && (
+                <a href={safeHttpUrl(a.meetingLink)} target="_blank" rel="noreferrer"
                   onClick={e => e.stopPropagation()}
                   className="text-xs font-bold text-blue-600 mt-1 block">Join Meeting →</a>
               )}

@@ -146,8 +146,9 @@ export const config = {
     '/student',
     '/student/login',
     '/student/register',
-    '/admin/dashboard/:path*',
-    '/admin/users/:path*',
+    // Every admin page (edit-request, profileedit, users, dashboard...), matching the
+    // pathname.startsWith('/admin/') check above.
+    '/admin/:path*',
     '/bdm/dashboard/:path*',
     '/student/dashboard/:path*',
     '/dashboard/:path*',

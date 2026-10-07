@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { Search, User } from 'lucide-react'
+import { API_URL } from '@/lib/api/base'
 
 interface Student {
   _id: string
@@ -22,7 +23,7 @@ export default function StudentList() {
 
   useEffect(() => {
     const token = Cookies.get('accessToken') || localStorage.getItem('accessToken')
-    fetch('/api/student/students', {
+    fetch(`${API_URL}/student/students`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(r => r.json())

@@ -146,8 +146,12 @@ function getReviewerName(request: LeadEditRequestItem): string {
 }
 
 export default function LeadEditRequests() {
-  const decoded = getUserIdFromToken();
-  const isAdmin = decoded?.role === 'admin';
+  // The role lives in browser storage, so it is read after mount: reading it during render made the
+  // server HTML ("My Requests") differ from the client's ("Admin Review") and broke hydration.
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    setIsAdmin(getUserIdFromToken()?.role === 'admin');
+  }, []);
   const [requests, setRequests] = useState<LeadEditRequestItem[]>([]);
   const [statusFilter, setStatusFilter] = useState<'pending' | 'approved' | 'rejected' | 'all'>('all');
   const [loading, setLoading] = useState(true);

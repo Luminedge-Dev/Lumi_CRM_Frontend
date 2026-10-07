@@ -7,6 +7,7 @@ import { getMyMilestones } from "@/lib/api/milestones";
 import { getNews } from "@/lib/api/news";
 import { getMyAppointments } from "@/lib/api/appointments";
 import { getMyDocuments } from "@/lib/api/documents";
+import { safeHttpUrl } from "@/lib/helpers/url";
 import type { StudentProfile, Application, Milestone, NewsItem, Appointment } from "@/types/student";
 import {
   ChevronRight, AlertCircle, CheckCircle, Clock, User,
@@ -328,8 +329,8 @@ export default function StudentHome({ token, profile, onNavigate }: Props) {
                     {new Date(a.scheduledAt).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
                   </p>
                 </div>
-                {a.meetingLink && (
-                  <a href={a.meetingLink} target="_blank" rel="noreferrer"
+                {safeHttpUrl(a.meetingLink) && (
+                  <a href={safeHttpUrl(a.meetingLink)} target="_blank" rel="noreferrer"
                     className="text-[10px] font-black text-[#00000F] bg-[#FACE39] px-2.5 py-1.5 rounded-lg hover:bg-[#f0c020] transition flex-shrink-0">
                     Join
                   </a>

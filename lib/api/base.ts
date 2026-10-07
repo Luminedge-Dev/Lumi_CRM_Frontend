@@ -1,5 +1,6 @@
-const LOCAL_API_URL = 'https://luminedge-crm-backend.onrender.com/api'
-const LOCAL_API_ORIGIN = 'https://luminedge-crm-backend.onrender.com'
+// Development-only default (see .env.example): a local frontend talks to a local backend, never
+// to production. Production always uses NEXT_PUBLIC_API_URL.
+const LOCAL_API_URL = 'http://localhost:5000/api'
 
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]'])
 
@@ -56,12 +57,8 @@ const resolveApiUrl = (): string => {
 }
 
 export const API_URL = normalizeUrl(resolveApiUrl())
-export const API_ORIGIN = normalizeUrl(
-  (process.env.NEXT_PUBLIC_API_URL ? safeOrigin(process.env.NEXT_PUBLIC_API_URL) : null)
-    ?? (isLocalHost() ? LOCAL_API_ORIGIN : null)
-    ?? getServerSideOrigin()
-    ?? ''
-)
+// Derived from the resolved API_URL so both exports always agree (including the localhost guard).
+export const API_ORIGIN = normalizeUrl(safeOrigin(API_URL) ?? getServerSideOrigin() ?? '')
 
 const originalFetch = globalThis.fetch.bind(globalThis)
 const normalizeApiRequest = (input: RequestInfo | URL) => {
@@ -92,6 +89,10 @@ if (!(globalThis as typeof globalThis & { __luminedgeApiFetchPatched?: boolean }
       })
     }
   }
+}
+
+export function authHeader(token: string) {
+  return { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
 }
 
 export async function readResponseBody(response: Response): Promise<any> {

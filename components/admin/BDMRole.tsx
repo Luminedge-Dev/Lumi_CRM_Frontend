@@ -5,14 +5,7 @@ import { Search, Shield, Users, ChevronRight, Edit2, Check, X } from 'lucide-rea
 import { getUsers, updateUserRole } from '@/lib/api/auth'
 import { BDM } from '@/types/admin'
 import { getBdmColor } from '@/lib/helpers/bdmColors'
-
-const getInitials = (name?: string): string => {
-  if (!name) return '?'
-  const parts = name.split(' ')
-  return parts.length > 1
-    ? `${parts[0].charAt(0)}${parts[1].charAt(0)}`.toUpperCase()
-    : name.charAt(0).toUpperCase()
-}
+import { getInitials, getRoleLabel } from '@/lib/helpers/format'
 
 export default function BDMRole() {
   const [bdmUsers, setBdmUsers] = useState<BDM[]>([])
@@ -95,8 +88,6 @@ export default function BDMRole() {
       setEditRole('')
     }
   }
-
-  const getRoleLabel = (role: string): string => role === 'bdm' ? 'BDM' : role
 
   const getRoleBadgeColor = (_role: string): string => 'bg-blue-100 text-blue-700'
 

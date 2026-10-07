@@ -5,6 +5,7 @@ import { AlertCircle, RefreshCw } from 'lucide-react'
 import { getAvailableSchedulesFromLuminedge, getMockTestSchedules } from '@/lib/api/mockTests'
 import MockTestScheduleTable from '@/components/admin/MockTestScheduleTable'
 import type { FilterState, LuminedgeSchedule, MockTestSchedule } from '@/types/admin'
+import { formatTimeTo12h } from '@/lib/helpers/format'
 
 const initialFilters: FilterState = {
   testType: 'all',
@@ -22,14 +23,6 @@ function toDateKey(value: string) {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return value.slice(0, 10)
   return date.toISOString().slice(0, 10)
-}
-
-function formatTimeTo12h(time: string): string {
-  const [hours, minutes] = time.split(':').map(Number)
-  if (Number.isNaN(hours) || Number.isNaN(minutes)) return time
-  const period = hours >= 12 ? 'PM' : 'AM'
-  const hour12 = hours % 12 || 12
-  return `${hour12}:${minutes.toString().padStart(2, '0')} ${period}`
 }
 
 function transformSchedules(data: LuminedgeSchedule[]): MockTestSchedule[] {

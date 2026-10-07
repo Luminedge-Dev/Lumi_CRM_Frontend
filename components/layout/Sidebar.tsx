@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-react'
 import type { Page } from '@/types/navigation'
+import { getInitials } from '@/lib/helpers/format'
 
 interface SidebarProps {
   activePage: Page
@@ -23,15 +24,6 @@ interface SidebarProps {
   onClose: () => void
   unreadCount: number
   user?: { name: string; role?: string; email?: string }
-}
-
-function getInitials(name: string): string {
-  return name
-    .split(' ')
-    .slice(0, 2)
-    .map(n => n[0] ?? '')
-    .join('')
-    .toUpperCase()
 }
 
 function SectionLabel({ label, collapsed }: { label: string; collapsed: boolean }) {

@@ -1,8 +1,7 @@
-const BASE = '/api';
+import { API_URL, authHeader } from './base';
 
-function authHeader(token: string) {
-  return { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
-}
+// Absolute backend URL: the API is a separate deployment, so a relative '/api' would hit the frontend host.
+const BASE = API_URL;
 
 export async function requestAppointment(token: string, data: {
   type: string;
@@ -26,7 +25,7 @@ export async function getMyAppointments(token: string) {
 }
 
 export async function getAllAppointments(token: string, status?: string) {
-  const qs = status ? `?status=${status}` : '';
+  const qs = status ? `?status=${encodeURIComponent(status)}` : '';
   const res = await fetch(`${BASE}/appointments${qs}`, {
     headers: authHeader(token),
   });

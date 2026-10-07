@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { getAllApplications, assignStaff, updateApplicationStatus } from '@/lib/api/applications'
+import { API_URL } from '@/lib/api/base'
 import type { Application } from '@/types/student'
 
 const STAGES = [
@@ -33,7 +34,7 @@ export default function StudentApplicationsAdmin() {
   useEffect(() => {
     load()
     // Load staff list for assign dropdowns
-    fetch('/api/auth/users', { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_URL}/auth/users`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(d => setStaff(d.users || d || []))
       .catch(() => {})

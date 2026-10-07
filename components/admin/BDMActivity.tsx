@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Search, Activity, Clock, Phone, Mail, FileText, UserPlus, CheckCircle, XCircle, Calendar } from 'lucide-react'
 import { getActivities } from '@/lib/api/activities'
 import { getBdmColor } from '@/lib/helpers/bdmColors'
+import { getInitials, getRoleLabel } from '@/lib/helpers/format'
 
 interface ActivityLog {
   _id: string
@@ -15,14 +16,6 @@ interface ActivityLog {
   description: string
   leadName?: string
   timestamp: string
-}
-
-const getInitials = (name?: string): string => {
-  if (!name) return '?'
-  const parts = name.split(' ')
-  return parts.length > 1
-    ? `${parts[0].charAt(0)}${parts[1].charAt(0)}`.toUpperCase()
-    : name.charAt(0).toUpperCase()
 }
 
 const getActionIcon = (actionType: string) => {
@@ -145,8 +138,6 @@ export default function BDMActivity() {
       minute: '2-digit'
     })
   }
-
-  const getRoleLabel = (role: string): string => role === 'bdm' ? 'BDM' : role
 
   // Stats calculation
   const todayActivities = activities.filter(a => {
