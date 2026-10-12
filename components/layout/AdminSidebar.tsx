@@ -18,11 +18,7 @@ import {
     FileText,
     X,
     ChevronLeft,
-    GraduationCap as StudentIcon,
-    FolderOpen,
     BarChart3,
-    Calendar,
-    Newspaper,
 } from 'lucide-react'
 import type { Page } from '@/types/navigation'
 import { useSocket } from '@/components/providers/SocketProvider'
@@ -41,7 +37,6 @@ interface AdminSidebarProps {
 export default function AdminSidebar({ activePage, setActivePage, onLogout, isOpen, onClose, unreadCount, pendingEditCount = 0, user }: AdminSidebarProps) {
     const [isServicesOpen, setIsServicesOpen] = useState(false)
     const [isBDMManagementOpen, setIsBDMManagementOpen] = useState(false)
-    const [isStudentsOpen, setIsStudentsOpen] = useState(false)
     const [collapsed, setCollapsed] = useState(false)
     const isIconOnly = collapsed
 
@@ -215,24 +210,6 @@ export default function AdminSidebar({ activePage, setActivePage, onLogout, isOp
                     <SectionLabel label="Analytics" />
                     <NavItem id="reports" label="Reports" icon={BarChart3} />
 
-                    <SectionLabel label="Students" />
-                    <AccordionBtn
-                        label="Students"
-                        icon={StudentIcon}
-                        isOpen={isStudentsOpen}
-                        onToggle={() => setIsStudentsOpen(v => !v)}
-                    />
-                    {isStudentsOpen && (
-                        <div className="mt-0.5 ml-5 pl-1.5 border-l-2 border-blue-200/50 space-y-0.5">
-                            <NavItem id="student-list" label="All Students" icon={Users} isSub />
-                            <NavItem id="student-applications" label="Applications" icon={FileText} isSub />
-                            <NavItem id="student-documents" label="Documents Review" icon={FolderOpen} isSub />
-                            <NavItem id="milestones" label="Milestones" icon={BarChart3} isSub />
-                            <NavItem id="appointments-admin" label="Appointments" icon={Calendar} isSub />
-                            <NavItem id="news-management" label="News Management" icon={Newspaper} isSub />
-                        </div>
-                    )}
-
                     <SectionLabel label="Management" />
                     {/* Create Staff Account
                     <Link
@@ -256,8 +233,9 @@ export default function AdminSidebar({ activePage, setActivePage, onLogout, isOp
                         </div>
                     )}
 
-                    <div className="mt-1.5">
+                    <div className="mt-1.5 space-y-0.5">
                         <NavItem id="edit-request" label="Edit Request" icon={ClipboardCheck} badge={pendingEditCount} />
+                        <NavItem id="notification" label="Follow-ups" icon={Bell} badge={unreadCount} />
                     </div>
                 </nav>
 

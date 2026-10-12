@@ -121,7 +121,10 @@ export const deleteMockTestSchedule = async (id: string): Promise<void> => {
 };
 
 function asScheduleList(payload: unknown): LuminedgeSchedule[] {
-  return Array.isArray(payload) ? (payload as LuminedgeSchedule[]) : [];
+  if (Array.isArray(payload)) return payload as LuminedgeSchedule[];
+  // The luminedge-server admin endpoint wraps the array in pagination metadata.
+  const schedules = (payload as { schedules?: unknown } | null)?.schedules;
+  return Array.isArray(schedules) ? (schedules as LuminedgeSchedule[]) : [];
 }
 
 // Luminedge Available Schedules (CRM proxy first, then browser-direct public API)

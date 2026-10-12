@@ -1,16 +1,12 @@
-import { API_URL } from './base';
+import { API_URL, authHeader } from './base';
 
 // Absolute backend URL: the API is a separate deployment, so a relative '/api' would hit the frontend host.
 const BASE = API_URL;
 
-function authHeader(token: string, isStudent = false) {
-  return { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
-}
-
 export async function getConversations(token: string, isStudent: boolean) {
   const endpoint = isStudent ? '/conversations/student' : '/conversations/staff';
   const res = await fetch(`${BASE}${endpoint}`, {
-    headers: authHeader(token, isStudent),
+    headers: authHeader(token),
   });
   return res.json();
 }
@@ -20,7 +16,7 @@ export async function getMessages(token: string, conversationId: string, isStude
     ? `/conversations/${conversationId}/messages/student`
     : `/conversations/${conversationId}/messages/staff`;
   const res = await fetch(`${BASE}${endpoint}?page=${page}`, {
-    headers: authHeader(token, isStudent),
+    headers: authHeader(token),
   });
   return res.json();
 }
@@ -31,7 +27,7 @@ export async function sendMessage(token: string, conversationId: string, content
     : `/conversations/${conversationId}/messages/staff`;
   const res = await fetch(`${BASE}${endpoint}`, {
     method: 'POST',
-    headers: authHeader(token, isStudent),
+    headers: authHeader(token),
     body: JSON.stringify({ content }),
   });
   return res.json();

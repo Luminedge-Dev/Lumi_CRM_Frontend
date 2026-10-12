@@ -145,7 +145,12 @@ function getReviewerName(request: LeadEditRequestItem): string {
   return 'Admin';
 }
 
-export default function LeadEditRequests() {
+interface LeadEditRequestsProps {
+  /** Called after a request is successfully approved/rejected, so the sidebar's pending badge can refresh. */
+  onReviewed?: () => void;
+}
+
+export default function LeadEditRequests({ onReviewed }: LeadEditRequestsProps) {
   // The role lives in browser storage, so it is read after mount: reading it during render made the
   // server HTML ("My Requests") differ from the client's ("Admin Review") and broke hydration.
   const [isAdmin, setIsAdmin] = useState(false);
@@ -212,6 +217,7 @@ export default function LeadEditRequests() {
       }
       setReviewNotes(prev => ({ ...prev, [requestId]: '' }));
       setRefreshTick(t => t + 1);
+      onReviewed?.();
     } catch (error: any) {
       toast.error(error?.message || `Failed to ${action} request`);
     } finally {

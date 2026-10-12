@@ -107,8 +107,12 @@ export default function AdminDashboardClient() {
     }
   }, [router])
 
-  useEffect(() => {
+  const refreshPendingEditCount = () => {
     getLeadEditRequests('pending').then(r => setPendingEditCount(r.length)).catch(() => {})
+  }
+
+  useEffect(() => {
+    refreshPendingEditCount()
   }, [socketTick])
 
   const handleLogout = () => { clearAuthAndRedirect() }
@@ -166,7 +170,7 @@ export default function AdminDashboardClient() {
       case 'profile':
         return <ProfilePage />
       case 'edit-request':
-        return <LeadEditRequests />
+        return <LeadEditRequests onReviewed={refreshPendingEditCount} />
       default:
         return <Dashboard />
     }
