@@ -1,3 +1,12 @@
+/* Self-hosted (not fetched from Google Fonts at build time, which some CI build
+   environments block/rate-limit, crashing next/font/google). */
+@import '@fontsource/montserrat/400.css';
+@import '@fontsource/montserrat/500.css';
+@import '@fontsource/montserrat/600.css';
+@import '@fontsource/montserrat/700.css';
+@import '@fontsource/montserrat/800.css';
+@import '@fontsource/montserrat/900.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,7 +24,7 @@
     --color-yellow: #FACE39;
     --color-dark:   #00000F;
     --color-white:  #FFFFFF;
-    --font-body: var(--font-montserrat), 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-body: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
   body {
