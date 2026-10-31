@@ -41,7 +41,8 @@ const resolveApiUrl = (): string => {
   }
 
   if (configuredUrl) {
-    return configuredUrl
+    const trimmed = configuredUrl.trim().replace(/\/+$/, '')
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`
   }
 
   // Local development — use the dev server directly
